@@ -1,0 +1,92 @@
+﻿
+@model HtmlToPdf.MvcDemo.Models.PdfDemoViewModel
+
+@{
+    ViewBag.Title = "HTML to PDF Converter";
+}
+
+<h2>HTML to PDF Converter</h2>
+
+<p>
+    Convert a webpage URL or raw HTML into a PDF document.
+</p>
+
+<hr />
+
+@using (Html.BeginForm(
+    "Generate",
+    "Pdf",
+    FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(
+            false,
+            "",
+            new { @class = "text-danger" })
+
+    <div class="form-group">
+        <label>Webpage URL</label>
+
+        @Html.TextBoxFor(
+                 m => m.Url,
+                 new
+                 {
+                     @class = "form-control",
+                     type = "url",
+                     placeholder = "https://example.com"
+                 })
+
+        <small class="text-muted">
+            Enter a URL or leave this field empty
+            when using raw HTML.
+        </small>
+    </div>
+
+    <hr />
+
+    <div class="form-group">
+        <label>Raw HTML</label>
+
+        @Html.TextAreaFor(
+                 m => m.Html,
+                 new
+                 {
+                     @class = "form-control",
+                     rows = "10",
+                     placeholder = "<html><body><h1>Hello World</h1></body></html>"
+                 })
+
+        <small class="text-muted">
+            Alternatively, paste your HTML content here.
+        </small>
+    </div>
+
+    <div class="form-group">
+        <label>Base URL (optional)</label>
+
+        @Html.TextBoxFor(
+                 m => m.BaseUrl,
+                 new
+                 {
+                     @class = "form-control",
+                     placeholder = "https://example.com/"
+                 })
+    </div>
+
+    <div class="form-group">
+        <label>PDF File Name</label>
+
+        @Html.TextBoxFor(
+                 m => m.FileName,
+                 new
+                 {
+                     @class = "form-control",
+                     placeholder = "document.pdf"
+                 })
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Generate PDF
+    </button>
+}
